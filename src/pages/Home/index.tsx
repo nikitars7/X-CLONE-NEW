@@ -9,9 +9,10 @@ import {
   Button,
   InputAdornment,
 } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Tweet from "../../components/Tweet";
 import Sidebar from "../../components/Sidebar";
@@ -19,9 +20,19 @@ import theme from "../../theme";
 import AddTweetForm from "../../components/AddTweetForm";
 import { useHomeStyles } from "./theme";
 import { SearchTextField } from "../../components/SearchTextField";
+import { useAppDispatch } from "../../store/store";
+import { TweetData, fetchTweets } from "../../store/slices/tweets";
+import { useSelector } from "react-redux";
+import { selectTweets } from "../../store/selectors";
+
 const Home = () => {
   const [value, setValue] = useState<number>(0);
+  const dispatch = useAppDispatch();
+  const { tweets, isLoading } = useSelector(selectTweets);
   const classes: ReturnType<typeof useHomeStyles> = useHomeStyles();
+  useEffect(() => {
+    dispatch(fetchTweets());
+  }, []);
   return (
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>
@@ -95,20 +106,24 @@ const Home = () => {
             >
               <AddTweetForm classes={classes} />
             </Paper>
-            {[
-              ...new Array(20).fill(
+            {isLoading === "loading" ? (
+              <div className={classes.loadingTweetsProgress}>
+                <CircularProgress />
+              </div>
+            ) : (
+              tweets.map((tweet: TweetData) => (
                 <Tweet
+                  key={tweet._id}
                   classes={classes}
-                  text="Car driveway rotator.  Apparently the home owner found it difficult to reverse out into the busy road.. "
+                  text={tweet.text}
                   user={{
-                    userName: "@HowThingsWork_",
-                    fullName: "H0W_THlNGS_W0RK",
-                    avatarUrl:
-                      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+                    userName: tweet.user.userName,
+                    fullName: tweet.user.fullName,
+                    avatarUrl: tweet.user.avatarUrl,
                   }}
                 />
-              ),
-            ]}
+              ))
+            )}
           </Paper>
         </Grid>
         <Grid item xs={3}>

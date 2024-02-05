@@ -1,7 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { grey } from "@mui/material/colors";
 import { Theme } from "@mui/material";
-import theme from "../../theme";
 export const useHomeStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     minHeight: "100vh",
@@ -155,4 +154,8 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
   },
   followItemCredentials: {},
+  loadingTweetsProgress: {
+    textAlign: "center",
+    marginTop: "20px",
+  },
 }));
