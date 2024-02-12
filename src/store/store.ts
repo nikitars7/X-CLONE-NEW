@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 // import createSagaMiddleware from "redux-saga";
 import { useDispatch } from "react-redux";
 import tweetsReducer from "./slices/tweets";
+import tagsReducer from "./slices/tags";
+import tweetReducer from "./slices/tweet";
 // import  { watchMySaga } from "./saga/saga";
 
 // const sagaMiddleware = createSagaMiddleware();
@@ -9,6 +11,8 @@ import tweetsReducer from "./slices/tweets";
 export const store = configureStore({
   reducer: {
     tweetsReducer,
+    tweetReducer,
+    tagsReducer,
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),

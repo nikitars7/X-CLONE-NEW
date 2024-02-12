@@ -7,8 +7,10 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { grey } from "@mui/material/colors";
-import { useHomeStyles } from "../../pages/Home/theme";
+import { useHomeStyles } from "../../pages/theme";
+import { Link } from "react-router-dom";
 interface TweetProps {
+  id: string;
   text: string;
   classes: ReturnType<typeof useHomeStyles>;
   user: {
@@ -17,7 +19,7 @@ interface TweetProps {
     avatarUrl: string;
   };
 }
-const Tweet: React.FC<TweetProps> = ({ classes, text, user }) => {
+const Tweet: React.FC<TweetProps> = ({ classes, text, user, id }) => {
   return (
     <Paper
       variant="outlined"
@@ -40,7 +42,7 @@ const Tweet: React.FC<TweetProps> = ({ classes, text, user }) => {
         src={user.avatarUrl}
         sx={{ marginRight: "12px", flexBasis: "40px" }}
       />
-      <div>
+      <div style={{ flex: "1" }}>
         <div className={classes.tweetUserData}>
           <div>
             <b style={{ fontSize: "15px", marginRight: "5px" }}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHomeStyles } from "../pages/Home/theme";
+import { useHomeStyles } from "../pages/theme";
 import {
   Avatar,
   TextareaAutosize,
@@ -13,10 +13,13 @@ import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumber
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import PendingActionsOutlinedIcon from "@mui/icons-material/PendingActionsOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import { useAppDispatch } from "../store/store";
+import { fetchAddTweet } from "../store/slices/tweets";
 interface AddTweetFormProps {
   classes: ReturnType<typeof useHomeStyles>;
 }
 const AddTweetForm: React.FC<AddTweetFormProps> = ({ classes }) => {
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>("");
   const maxValue: number = 300;
   let remaining = maxValue - value.length;
@@ -25,6 +28,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({ classes }) => {
     setValue(e.target.value);
   };
   const handleAddTweet = (): void => {
+    dispatch(fetchAddTweet(value));
     setValue("");
   };
   return (

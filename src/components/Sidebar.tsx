@@ -1,4 +1,4 @@
-import { useHomeStyles } from "../pages/Home/theme";
+import { useHomeStyles } from "../pages/theme";
 import { Link } from "react-router-dom";
 import { Typography, IconButton, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -26,7 +26,7 @@ const Sidebar: React.FC<SibeBarProps> = ({ classes }) => {
   };
   return (
     <nav className={classes.navList}>
-      <Link to="" className={classes.navLink}>
+      <Link to="/home" className={classes.navLink}>
         <IconButton>
           <XIcon className={classes.logo} sx={{ fontSize: "30px" }} />
         </IconButton>
