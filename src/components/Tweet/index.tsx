@@ -9,17 +9,29 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { grey } from "@mui/material/colors";
 import { useHomeStyles } from "../../pages/theme";
 import { Link } from "react-router-dom";
+import { formatDate } from "../../utils/formatDate";
+import DropDownMore from "../../UI/MenuDropdown/DropDownMore";
 interface TweetProps {
-  id: string;
+  _id: string;
   text: string;
+  createdAt: string;
   classes: ReturnType<typeof useHomeStyles>;
   user: {
-    fullName: string;
-    userName: string;
+    fullname: string;
+    username: string;
     avatarUrl: string;
   };
 }
-const Tweet: React.FC<TweetProps> = ({ classes, text, user, id }) => {
+const Tweet: React.FC<TweetProps> = ({
+  classes,
+  text,
+  user,
+  _id,
+  createdAt,
+}) => {
+  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  // };
   return (
     <Paper
       variant="outlined"
@@ -38,7 +50,7 @@ const Tweet: React.FC<TweetProps> = ({ classes, text, user, id }) => {
       }}
     >
       <Avatar
-        alt={`Avatar of the ${user.userName}`}
+        alt={`Avatar of the ${user.username}`}
         src={user.avatarUrl}
         sx={{ marginRight: "12px", flexBasis: "40px" }}
       />
@@ -46,14 +58,14 @@ const Tweet: React.FC<TweetProps> = ({ classes, text, user, id }) => {
         <div className={classes.tweetUserData}>
           <div>
             <b style={{ fontSize: "15px", marginRight: "5px" }}>
-              {user.fullName}
+              {user.fullname}
             </b>
-            <span className={classes.tweetUserName}> {user.userName}</span>
-            <span style={{ color: grey[500] }}>Jan 22</span>
+            <span className={classes.tweetUserName}> {user.username}</span>
+            <span style={{ color: grey[500] }}>
+              {formatDate(new Date(createdAt))}
+            </span>
           </div>
-          <IconButton sx={{ width: "19px", height: "19px" }}>
-            <MoreHorizIcon />
-          </IconButton>
+          <DropDownMore />
         </div>
         <Typography variant="body1" gutterBottom>
           {text}

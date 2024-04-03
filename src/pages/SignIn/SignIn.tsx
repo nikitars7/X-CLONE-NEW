@@ -1,25 +1,13 @@
-import {
-  Button,
-  Typography,
-  FormControl,
-  FormGroup,
-  TextField,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AppleIcon from "@mui/icons-material/Apple";
-import { Root, classes } from "./styles";
+import { Root, appleAuthBtn, classes } from "./styles";
 import { navList } from "./list";
-import { ModalWindow } from "../../UI/Modal/ModalWindow";
 import { useState } from "react";
-const appleAuthBtn = {
-  color: "black",
-  "&:hover": {
-    backgroundColor: "rgb(207, 217, 222)",
-    borderColor: "rgb(207, 217, 222)",
-  },
-};
-
+import SignInModal from "./components/SignInModal";
+import SignUpModal from "./components/SignUpModal";
+import { AlertProvider } from "../../context/AlertProvider";
 const SignIn = () => {
   const [visible, setIsVisible] = useState<"signIn" | "signUp">();
   const handleClickSignIn = (): void => {
@@ -103,162 +91,16 @@ const SignIn = () => {
                 >
                   Sign in
                 </Button>
-                <ModalWindow
-                  title="Step 1 of 5"
+                <AlertProvider>
+                  <SignInModal
+                    visible={visible === "signIn"}
+                    handleClose={handleClose}
+                  />
+                </AlertProvider>
+                <SignUpModal
                   visible={visible === "signUp"}
-                  onClose={handleClose}
-                >
-                  <FormControl>
-                    <Typography
-                      variant="h1"
-                      sx={{
-                        margin: "20px 0px",
-                        fontWeight: "700",
-                        fontSize: "31px",
-                        lineHeight: "36px",
-                      }}
-                    >
-                      Create your account
-                    </Typography>
-                    <FormGroup>
-                      <TextField
-                        sx={{
-                          width: "438px",
-                          minHeight: "56px",
-                          margin: "12px 0px",
-                        }}
-                        id="email"
-                        label="Name"
-                        autoFocus
-                        variant="filled"
-                        type="email"
-                        fullWidth
-                      />
-                      <TextField
-                        sx={{
-                          width: "438px",
-                          minHeight: "56px",
-                          margin: "12px 0px",
-                        }}
-                        id="email"
-                        label="Email"
-                        autoFocus
-                        variant="filled"
-                        type="email"
-                        fullWidth
-                      />
-                      <Typography
-                        sx={{
-                          marginTop: "20px",
-                          marginBottom: "8px",
-                          fontWeight: "700",
-                          fontSize: "15px",
-                          lineHeight: "20px",
-                        }}
-                      >
-                        Date of birth
-                      </Typography>
-                      <Typography
-                        sx={{
-                          marginBottom: "4px",
-                          fontSize: "14px",
-                          lineHeight: "16px",
-                          fontWeight: "400",
-                          color: "rgb(83, 100, 113)",
-                        }}
-                      >
-                        This will not be shown publicly. Confirm your own age,
-                        even if this account is for a business, a pet, or
-                        something else.
-                      </Typography>
-                    </FormGroup>
-                  </FormControl>
-                </ModalWindow>
-                <ModalWindow
-                  title="Log in"
-                  visible={visible === "signIn"}
-                  onClose={handleClose}
-                >
-                  <FormControl
-                    sx={{
-                      maxWidth: "364px",
-                      minWidth: "364px",
-                      paddingBottom: "48px",
-                    }}
-                  >
-                    <FormGroup>
-                      <div className={classes.googleAuth}>
-                        <AccountCircleIcon />
-                        <div className={classes.googleCredentials}>
-                          <div className={classes.googleUserName}>
-                            Sign in as User
-                          </div>
-                          <div className={classes.googleUserEmail}>
-                            user@gmail.com
-                          </div>
-                        </div>
-                        <GoogleIcon />
-                      </div>
-                      <Button
-                        sx={{
-                          ...appleAuthBtn,
-                          maxWidth: "300px",
-                          minWidth: "300px",
-                          alignSelf: "center",
-                        }}
-                        variant="outlined"
-                      >
-                        <AppleIcon />
-                        Sign Up with Apple
-                      </Button>
-                      <div className={classes.dividerStyles}>
-                        <div>
-                          <div></div>
-                        </div>
-                        <div>or</div>
-                        <div>
-                          <div></div>
-                        </div>
-                      </div>
-                      <TextField
-                        sx={{
-                          minHeight: "56px",
-                          margin: "12px 0px",
-                        }}
-                        id="email"
-                        label="Email,phone number or user name"
-                        autoFocus
-                        variant="filled"
-                        type="email"
-                        fullWidth
-                      />
-                      <Button
-                        sx={{
-                          backgroundColor: "black",
-                          transition: "all 0.3s",
-                          margin: "12px 0px",
-                          "&:hover": {
-                            backgroundColor: "black",
-                            opacity: "0.8",
-                          },
-                        }}
-                        variant="contained"
-                      >
-                        Sign in
-                      </Button>
-                      <Button
-                        sx={{ ...appleAuthBtn, margin: "12px 0px" }}
-                        variant="outlined"
-                      >
-                        Forgot your password?
-                      </Button>
-                      <Typography sx={{ marginTop: "40px" }}>
-                        Нет учетной записи?
-                        <a href="">Зарегестрируйтесь</a>
-                      </Typography>
-                    </FormGroup>
-                  </FormControl>
-                </ModalWindow>
+                  handleClose={handleClose}
+                />
               </div>
             </div>
           </div>

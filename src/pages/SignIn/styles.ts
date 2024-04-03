@@ -2,6 +2,48 @@ import { styled } from "@mui/material/styles";
 
 const PREFIX = "SignIn";
 
+export const appleAuthBtn = {
+  color: "black",
+  "&:hover": {
+    backgroundColor: "rgb(207, 217, 222)",
+    borderColor: "rgb(207, 217, 222)",
+  },
+};
+export const stylesPopUp = {
+  googleAuth: {
+    display: "flex",
+    alignSelf: "center",
+    maxWidth: "300px",
+    minWidth: "300px",
+    alignItems: "center",
+    borderRadius: "30px",
+    marginBottom: "8px",
+    border: "1px solid rgb(207, 217, 222)",
+    padding: "0px 12px",
+    minHeight: "40px",
+    gap: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
+  googleCredentials: {
+    fontSize: "11px",
+    fontWeight: "400",
+    color: "#5f6368",
+    flex: "1 1 auto",
+  },
+  googleUserName: {
+    fontSize: "12px",
+    fontWeight: "500",
+  },
+  googleUserEmail: {
+    fontSize: "11px",
+    fontWeight: "400",
+    color: "#5f6368",
+  },
+  "&:hover": {
+    backgroundColor: "lightblue",
+  },
+};
 export const classes = {
   wrapper: `${PREFIX}-wrapper`,
   content: `${PREFIX}-content`,

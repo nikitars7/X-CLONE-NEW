@@ -62,43 +62,52 @@ export const theme = createTheme({
       },
     },
     MuiFilledInput: {
-      underline: {
-        "&:after": {
-          borderBottomWidth: "2px",
-        },
-        "&:before": {
-          borderColor: "#000",
-          borderBottomWidth: "2px",
-        },
-      },
-      input: {
-        backgroundColor: "rgb(245, 248, 250)",
+      styleOverrides: {
+        // underline: {
+        //   "&:after": {
+        //     borderBottomWidth: "2px",
+        //   },
+        //   "&:before": {
+        //     borderColor: "#000",
+        //     borderBottomWidth: "2px",
+        //   },
+        // },
+        // input: {
+        //   backgroundColor: "rgb(245, 248, 250)",
+        // },
       },
     },
     MuiDialog: {
-      paper: {
-        borderRadius: 16,
+      styleOverrides: {
+        paper: {
+          borderRadius: 16,
+          padding: "0px 32px 48px 32px",
+        },
       },
     },
     MuiDialogActions: {
-      root: {
-        marginBottom: 8,
+      styleOverrides: {
+        // root: {
+        //   marginBottom: 8,
+        // }
       },
     },
     MuiDialogTitle: {
-      root: {
-        borderBottom: "1px solid rgb(204, 214, 221)",
-        marginBottom: 10,
-        padding: "10px 15px",
-        "& h2": {
-          display: "flex",
-          alignItems: "center",
-          fontWeight: 800,
-        },
-        "& button": {
-          padding: 8,
-          marginRight: 20,
-        },
+      styleOverrides: {
+        // root: {
+        //   borderBottom: "1px solid rgb(204, 214, 221)",
+        //   marginBottom: 10,
+        //   padding: "10px 15px",
+        //   "& h2": {
+        //     display: "flex",
+        //     alignItems: "center",
+        //     fontWeight: 800,
+        //   },
+        //   "& button": {
+        //     padding: 8,
+        //     marginRight: 20,
+        //   },
+        // },
       },
     },
   },

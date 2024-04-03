@@ -5,10 +5,10 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useSelector } from "react-redux";
-import { selectTags } from "../store/selectors";
 import { TagsData } from "../store/slices/tags";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import { selectTags } from "../store/selectors";
 interface TagsProps {
   classes: ReturnType<typeof useHomeStyles>;
 }

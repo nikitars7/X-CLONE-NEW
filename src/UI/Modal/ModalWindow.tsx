@@ -1,4 +1,5 @@
 import {
+  Box,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -6,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { useEffect } from "react";
 interface ModalProps {
   title: string;
   visible?: boolean;
@@ -26,7 +28,6 @@ export const ModalWindow: React.FC<ModalProps> = ({
       open={visible}
       onClose={onClose}
       aria-labelledby="form-dialog-title"
-      sx={{ borderRadius: "16px" }}
     >
       <DialogTitle
         id="form-dialog-title"

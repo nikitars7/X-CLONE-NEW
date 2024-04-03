@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 export const fetchTags = createAsyncThunk(
   "tags/fetchTagsStatus",
@@ -36,11 +36,17 @@ const initialState: Tags = {
 const tagsSlice = createSlice({
   name: "tags",
   initialState,
-  reducers: {
-    setTags(state, action) {
+
+  reducers: (create) => ({
+    setTags: create.reducer((state, action: PayloadAction<TagsData[]>) => {
       state.tags = action.payload;
-    },
+    }),
+  }),
+
+  selectors: {
+    selectTags: (state) => state,
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchTags.pending, (state) => {
@@ -58,4 +64,5 @@ const tagsSlice = createSlice({
   },
 });
 export const { setTags } = tagsSlice.actions;
+export const { selectTags } = tagsSlice.selectors;
 export default tagsSlice.reducer;

@@ -1,15 +1,22 @@
 import { Routes, Route } from "react-router-dom";
-import { router } from ".";
+import { privateRouter, publicRouter } from ".";
 import MainLayout from "../layouts/MainLayout";
 
 const AppRouter = () => {
+  const isAuth = false;
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
-        {router.map(({ path, component }) => (
+      {isAuth ? (
+        <Route path="/home" element={<MainLayout />}>
+          {privateRouter.map(({ path, component }) => (
+            <Route key={path} path={path} element={component} />
+          ))}
+        </Route>
+      ) : (
+        publicRouter.map(({ path, component }) => (
           <Route key={path} path={path} element={component} />
-        ))}
-      </Route>
+        ))
+      )}
     </Routes>
   );
 };

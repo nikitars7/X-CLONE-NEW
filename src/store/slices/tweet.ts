@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { Status, TweetData } from "./tweets";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "../../axios";
+import { Status, TweetData, TweetsResponse } from "./tweets";
 export const fetchTweet = createAsyncThunk(
   "tweet/fetchTweetStatus",
   async (id: string, { rejectWithValue }) => {
     try {
-      const res = await axios.get<TweetData>(
-        `https://65907955cbf74b575ecad237.mockapi.io/tweets/${id}`
+      const res = await axios.get<TweetsResponse<TweetData>>(
+        `/x-clone/tweets/${id}`
       );
-      return res.data as TweetData;
+      return res.data;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
@@ -26,20 +26,19 @@ const initialState: Tweets = {
 const tweetSlice = createSlice({
   name: "tweets",
   initialState,
-  reducers: {
-    setTweet(state, action) {
-      state.tweet = action.payload;
-    },
 
-    // setLoading(state) {
-    //   state.tweets = [];
-    //   state.isLoading = Status.LOADING;
-    // },
-    // setError(state) {
-    //   state.tweets = [];
-    //   state.isLoading = Status.ERROR;
-    // },
+  reducers: (create) => ({
+    setTweet: create.reducer(
+      (state, action: PayloadAction<TweetData | undefined>) => {
+        state.tweet = action.payload;
+      }
+    ),
+  }),
+
+  selectors: {
+    selectTweet: (state) => state,
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchTweet.pending, (state) => {
@@ -47,7 +46,7 @@ const tweetSlice = createSlice({
         state.tweet = undefined;
       })
       .addCase(fetchTweet.fulfilled, (state, action) => {
-        state.tweet = action.payload;
+        state.tweet = action.payload.data;
         state.isLoadingTweet = Status.SUCCESS;
       })
       .addCase(fetchTweet.rejected, (state) => {
@@ -57,7 +56,6 @@ const tweetSlice = createSlice({
       });
   },
 });
-// export const GET_TWEETS = "tweets/getTweets";
-// export const getTweets = createAction(GET_TWEETS);
 export const { setTweet } = tweetSlice.actions;
+export const { selectTweet } = tweetSlice.selectors;
 export default tweetSlice.reducer;

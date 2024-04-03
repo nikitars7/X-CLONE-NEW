@@ -13,9 +13,9 @@ import { useHomeStyles } from "../theme";
 import { useAppDispatch } from "../../store/store";
 import { TweetData, fetchTweets } from "../../store/slices/tweets";
 import { useSelector } from "react-redux";
-import { selectTweets } from "../../store/selectors";
 import { fetchTags } from "../../store/slices/tags";
 import { Link } from "react-router-dom";
+import { selectTweets } from "../../store/selectors";
 
 const Home = () => {
   const [value, setValue] = useState<number>(0);
@@ -37,6 +37,10 @@ const Home = () => {
           borderTop: 0,
           display: "flex",
           alignItems: "center",
+          position: "sticky",
+          top: "0",
+          zIndex: "3",
+          opacity: 0.9,
         }}
       >
         <BottomNavigation
@@ -91,7 +95,7 @@ const Home = () => {
         </div>
       ) : (
         tweets.map((tweet: TweetData) => (
-          <Link to={`/home/tweet/${tweet.id}`} key={tweet.id}>
+          <Link to={`/home/tweet/${tweet._id}`} key={tweet._id}>
             <Tweet classes={classes} {...tweet} />
           </Link>
         ))

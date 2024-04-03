@@ -1,24 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import createSagaMiddleware from "redux-saga";
 import { useDispatch } from "react-redux";
 import tweetsReducer from "./slices/tweets";
 import tagsReducer from "./slices/tags";
 import tweetReducer from "./slices/tweet";
-// import  { watchMySaga } from "./saga/saga";
-
-// const sagaMiddleware = createSagaMiddleware();
-
+import authReducer from "./slices/userAuth";
 export const store = configureStore({
   reducer: {
     tweetsReducer,
     tweetReducer,
     tagsReducer,
+    authReducer,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
 });
-
-// sagaMiddleware.run(watchMySaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 

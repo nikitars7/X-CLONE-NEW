@@ -14,14 +14,13 @@ const MainLayout: React.FC = () => {
   const classes = useHomeStyles();
 
   return (
-    <Container className={classes.wrapper} maxWidth="lg">
-      <Grid container spacing={3}>
-        <Grid item sm={1} md={3}>
-          <Sidebar classes={classes} />
-        </Grid>
-        <Grid item sm={8} md={6}>
+    <div className={classes.wrapper}>
+      <div style={{ display: "flex", gap: "10px" }}>
+        <Sidebar classes={classes} />
+        <div style={{ display: "flex", flex: "0 1 1050px", gap: "30px" }}>
           <Paper
             sx={{
+              flex: "1",
               borderRadius: 0,
               minHeight: "100vh",
               borderTop: 0,
@@ -31,11 +30,15 @@ const MainLayout: React.FC = () => {
           >
             <Outlet />
           </Paper>
-        </Grid>
-        <Grid item xs={3}>
           <div className={classes.searchSide}>
             <SearchTextField
-              sx={{ marginBottom: "16px" }}
+              sx={{
+                marginBottom: "16px",
+                position: "sticky",
+                top: "0",
+                zIndex: "3",
+                opacity: 0.98,
+              }}
               variant="outlined"
               placeholder="Search"
               InputProps={{
@@ -111,12 +114,15 @@ const MainLayout: React.FC = () => {
                     </Button>
                   </div>
                 </div>
+                <div className={classes.searchSideMore}>
+                  <a href="#">Show more</a>
+                </div>
               </div>
             </Paper>
           </div>
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

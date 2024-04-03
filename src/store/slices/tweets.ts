@@ -1,14 +1,18 @@
-import { v4 as uuidv4 } from "uuid";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// import { v4 as uuidv4 } from "uuid";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "../../axios";
+export interface TweetsResponse<T> {
+  status: string;
+  data: T;
+}
 export const fetchTweets = createAsyncThunk(
   "tweets/fetchTweetsStatus",
   async (params, { rejectWithValue }) => {
     try {
-      const res = await axios.get<TweetData[]>(
-        "https://65907955cbf74b575ecad237.mockapi.io/tweets"
+      const res = await axios.get<TweetsResponse<TweetData[]>>(
+        "/x-clone/tweets"
       );
-      return res.data as TweetData[];
+      return res.data as TweetsResponse<TweetData[]>;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
@@ -16,23 +20,23 @@ export const fetchTweets = createAsyncThunk(
 );
 export const fetchAddTweet = createAsyncThunk(
   "tweet/fetchAddTweetStatus",
-  async (text: string, { rejectWithValue }) => {
-    const payload = {
-      text,
-      id: uuidv4(),
-      user: {
-        fullName: "Nikita",
-        userName: "ndev",
-        avatarUrl:
-          "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      },
-    };
+  async (payload: string, { rejectWithValue }) => {
+    // const payload = {
+    //   text,
+    //   id: uuidv4(),
+    //   user: {
+    //     fullName: "Nikita",
+    //     userName: "ndev",
+    //     avatarUrl:
+    //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+    //   },
+    // };
     try {
-      const res = await axios.post<TweetData>(
-        "https://65907955cbf74b575ecad237.mockapi.io/tweets",
-        payload
+      const res = await axios.post<TweetsResponse<TweetData>>(
+        "/x-clone/tweets",
+        { text: payload }
       );
-      return res.data as TweetData;
+      return res.data as TweetsResponse<TweetData>;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
@@ -40,10 +44,12 @@ export const fetchAddTweet = createAsyncThunk(
 );
 export interface TweetData {
   text: string;
-  id: string;
+  _id: string;
+  createdAt: string;
   user: {
-    fullName: string;
-    userName: string;
+    _id: string;
+    fullname: string;
+    username: string;
     avatarUrl: string;
   };
 }
@@ -57,29 +63,28 @@ export enum Status {
   LOADING = "loading",
   SUCCESS = "success",
   ERROR = "error",
+  NEVER = "never",
 }
 const initialState: Tweets = {
   tweets: [],
   isLoadingTweets: Status.LOADING,
-  isAddingTweet: Status.LOADING,
+  isAddingTweet: Status.NEVER,
 };
 
 const tweetsSlice = createSlice({
   name: "tweets",
   initialState,
-  reducers: {
-    setTweets(state, action) {
+
+  reducers: (create) => ({
+    setTweets: create.reducer((state, action: PayloadAction<TweetData[]>) => {
       state.tweets = action.payload;
-    },
-    // setLoading(state) {
-    //   state.tweets = [];
-    //   state.isLoading = Status.LOADING;
-    // },
-    // setError(state) {
-    //   state.tweets = [];
-    //   state.isLoading = Status.ERROR;
-    // },
+    }),
+  }),
+
+  selectors: {
+    selectTweets: (state) => state,
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchTweets.pending, (state) => {
@@ -87,7 +92,7 @@ const tweetsSlice = createSlice({
         state.tweets = [];
       })
       .addCase(fetchTweets.fulfilled, (state, action) => {
-        state.tweets = action.payload;
+        state.tweets = action.payload.data;
         state.isLoadingTweets = Status.SUCCESS;
       })
       .addCase(fetchTweets.rejected, (state) => {
@@ -99,8 +104,8 @@ const tweetsSlice = createSlice({
         state.isAddingTweet = Status.LOADING;
       })
       .addCase(fetchAddTweet.fulfilled, (state, action) => {
-        state.tweets.push(action.payload);
         state.isAddingTweet = Status.SUCCESS;
+        state.tweets.unshift(action.payload.data);
       })
       .addCase(fetchAddTweet.rejected, (state) => {
         state.isAddingTweet = Status.ERROR;
@@ -108,7 +113,6 @@ const tweetsSlice = createSlice({
       });
   },
 });
-// export const GET_TWEETS = "tweets/getTweets";
-// export const getTweets = createAction(GET_TWEETS);
 export const { setTweets } = tweetsSlice.actions;
+export const { selectTweets } = tweetsSlice.selectors;
 export default tweetsSlice.reducer;

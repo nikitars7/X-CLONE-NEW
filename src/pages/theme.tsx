@@ -4,8 +4,12 @@ import { Theme } from "@mui/material";
 export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
   (theme: Theme) => ({
     wrapper: {
-      minHeight: "100vh",
+      minHeight: "100%",
       position: "relative",
+      maxWidth: "1350px",
+      margin: "0px auto",
+      paddingLeft: "12px",
+      paddingRight: "12px",
     },
     logo: {
       color: "black",
@@ -14,9 +18,11 @@ export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
         fill: "black",
       },
     },
+    navBar: {
+      display: "flex",
+      flexDirection: "column",
+    },
     navList: {
-      position: "sticky",
-      top: "0",
       display: "flex",
       flexDirection: "column",
       paddingTop: "5px",
@@ -39,12 +45,38 @@ export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
         backgroundColor: "rgba(15,20,25,0.1)",
       },
     },
+    user: {
+      margin: "12px 0px",
+      borderRadius: 30,
+      cursor: "pointer",
+      transition: "all 0.3s ease 0s",
+      "&:hover": {
+        backgroundColor: "rgba(15,20,25,0.1)",
+      },
+    },
     navIcon: {
       color: "black",
+    },
+    fullTweet: {
+      padding: "0px 16px",
     },
     tweetUserName: {
       color: grey[500],
       marginRight: "5px",
+      lineHeight: "20px",
+      fontSize: "15px",
+    },
+    fullTweetUserData: {
+      display: "flex",
+      alignItems: "center",
+    },
+    fullTweetDate: {
+      display: "flex",
+      alignitems: "center",
+      margin: "16px 0px",
+    },
+    fullTweetTime: {
+      color: "rgb(83, 100, 113)",
     },
     tweetUserData: {
       display: "flex",
@@ -103,6 +135,8 @@ export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
     searchSide: {
       position: "sticky",
       top: "0",
+      flex: "0 1 350px",
+      marginRight: "75px",
     },
     searchSideBlock: { marginBottom: "16px" },
     searchSideBlockList: {
@@ -113,13 +147,12 @@ export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
     searchSideHeader: {
       color: theme.palette.secondary.dark,
       fontSize: "20px",
-      padding: "16px 12px 0px 16px",
+      padding: "16px 12px 12px 16px",
       fontWeight: "700",
     },
     searchSideItem: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "flex-start",
       padding: "12px 16px",
       transition: "all 0.3s ease 0s",
       "&:hover": {
@@ -128,9 +161,15 @@ export const useHomeStyles: ReturnType<typeof makeStyles> = makeStyles(
       },
     },
     searchSideMore: {
-      padding: "12px 16px",
+      padding: "16px 16px",
+      borderRadius: "0px 0px 16px 16px",
+      transition: "all 0.3s ease 0s",
       "& a": {
         color: theme.palette.primary.main,
+      },
+      "&:hover": {
+        backgroundColor: "rgb(236, 242, 247)",
+        cursor: "pointer",
       },
     },
     searchSideItemActions: {
