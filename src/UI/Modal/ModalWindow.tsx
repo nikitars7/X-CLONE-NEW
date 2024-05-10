@@ -1,13 +1,13 @@
 import {
-  Box,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Typography,
 } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { useEffect } from "react";
+import theme from "../../theme";
 interface ModalProps {
   title: string;
   visible?: boolean;
@@ -20,6 +20,7 @@ export const ModalWindow: React.FC<ModalProps> = ({
   onClose,
   children,
 }) => {
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   if (!visible) {
     return null;
   }
@@ -27,6 +28,7 @@ export const ModalWindow: React.FC<ModalProps> = ({
     <Dialog
       open={visible}
       onClose={onClose}
+      fullScreen={fullScreen}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle

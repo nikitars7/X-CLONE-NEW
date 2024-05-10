@@ -1,9 +1,9 @@
 import { AlertColor } from "@mui/material";
 import { createContext, useContext } from "react";
-interface IContext {
+interface IAlert {
   (newMessage: string, newSeverity: AlertColor | undefined): void;
 }
-export const AlertContext = createContext<IContext | null>(null);
+export const AlertContext = createContext<IAlert | null>(null);
 
 export const useAlert = () => {
   const context = useContext(AlertContext);

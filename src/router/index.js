@@ -5,7 +5,7 @@ import FullTweet from "../pages/FullTweet";
 const Home = lazy(() => import(/*webpackChunkName: 'Home'*/ "../pages/Home"));
 export const privateRouter = [
   {
-    path: "/",
+    path: "/home",
     component: (
       <Suspense fallback={<LoaderX />}>
         <Home />

@@ -1,4 +1,5 @@
 import { styled } from "@mui/material/styles";
+import theme from "../../theme";
 
 const PREFIX = "SignIn";
 
@@ -12,10 +13,8 @@ export const appleAuthBtn = {
 export const stylesPopUp = {
   googleAuth: {
     display: "flex",
-    alignSelf: "center",
-    maxWidth: "300px",
-    minWidth: "300px",
-    alignItems: "center",
+    width: "100%",
+    justifyContent: "flex-start",
     borderRadius: "30px",
     marginBottom: "8px",
     border: "1px solid rgb(207, 217, 222)",
@@ -24,12 +23,18 @@ export const stylesPopUp = {
     gap: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
+    ":hover": {
+      backgroundColor: "lightblue",
+    },
   },
   googleCredentials: {
     fontSize: "11px",
     fontWeight: "400",
+    lineHeight: "12px",
     color: "#5f6368",
     flex: "1 1 auto",
+    display: "grid",
+    justifyContent: "start",
   },
   googleUserName: {
     fontSize: "12px",
@@ -40,8 +45,24 @@ export const stylesPopUp = {
     fontWeight: "400",
     color: "#5f6368",
   },
-  "&:hover": {
-    backgroundColor: "lightblue",
+};
+export const divider = {
+  dividerStyles: {
+    display: "flex",
+    alignSelf: "center",
+    alignItems: "center",
+  },
+  lineStyleLeft: {
+    height: "1px",
+    width: "130px",
+    backgroundColor: "rgb(239, 243, 244)",
+    marginRight: "8px",
+  },
+  lineStyleRight: {
+    height: "1px",
+    width: "130px",
+    backgroundColor: "rgb(239, 243, 244)",
+    marginLeft: "8px",
   },
 };
 export const classes = {
@@ -87,9 +108,18 @@ export const Root = styled("main")(() => ({
     justifyContent: "center",
     alignItems: "center",
     padding: "32px ",
+    [theme.breakpoints.down("sm")]: {
+      // visibility: "hidden",
+      // opacity: "0",
+    },
   },
   [`& .${classes.icon}`]: {
     maxHeight: "380px",
+    [theme.breakpoints.down("sm")]: {
+      width: "45px",
+      height: "57px",
+      paddingBottom: "12px",
+    },
   },
   [`& .${classes.authSide}`]: {
     flex: "0 1 45%",
@@ -113,6 +143,7 @@ export const Root = styled("main")(() => ({
     padding: "0px 12px",
     minHeight: "40px",
     gap: "8px",
+    color: "black",
     cursor: "pointer",
     transition: "all 0.3s ease",
     "&:hover": {
@@ -121,6 +152,9 @@ export const Root = styled("main")(() => ({
   },
   [`& .${classes.googleCredentials}`]: {
     flex: "1 1 auto",
+    display: "grid",
+    lineHeight: "12px",
+    justifyContent: "start",
   },
   [`& .${classes.googleUserName}`]: {
     fontSize: "12px",

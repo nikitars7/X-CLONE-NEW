@@ -1,20 +1,36 @@
 import { Button, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AppleIcon from "@mui/icons-material/Apple";
 import { Root, appleAuthBtn, classes } from "./styles";
 import { navList } from "./list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignInModal from "./components/SignInModal";
 import SignUpModal from "./components/SignUpModal";
 import { AlertProvider } from "../../context/AlertProvider";
-const SignIn = () => {
-  const [visible, setIsVisible] = useState<"signIn" | "signUp">();
+enum SignPopUp {
+  SIGN_IN = "signIn",
+  SIGN_UP = "signUp",
+}
+const SignIn: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const [visible, setIsVisible] = useState<SignPopUp>();
   const handleClickSignIn = (): void => {
-    setIsVisible("signIn");
+    setIsVisible(SignPopUp.SIGN_IN);
   };
   const handleClickSignUp = (): void => {
-    setIsVisible("signUp");
+    setIsVisible(SignPopUp.SIGN_UP);
   };
   const handleClose = () => {
     setIsVisible(undefined);
@@ -24,6 +40,19 @@ const SignIn = () => {
       <div className={classes.content}>
         <section className={classes.authSide}>
           <div className={classes.authBlock}>
+            {isMobile <= 600 ? (
+              <svg
+                className={classes.icon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <g>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </g>
+              </svg>
+            ) : (
+              ""
+            )}
             <Typography
               variant="h1"
               sx={{
@@ -48,14 +77,14 @@ const SignIn = () => {
               Join today.
             </Typography>
             <div className={classes.authFlex}>
-              <div className={classes.googleAuth}>
+              <Button className={classes.googleAuth}>
                 <AccountCircleIcon />
                 <div className={classes.googleCredentials}>
                   <div className={classes.googleUserName}>Sign in as User</div>
                   <div className={classes.googleUserEmail}>user@gmail.com</div>
                 </div>
                 <GoogleIcon />
-              </div>
+              </Button>
               <Button sx={appleAuthBtn} variant="outlined" fullWidth>
                 <AppleIcon />
                 Sign Up with Apple
@@ -92,26 +121,40 @@ const SignIn = () => {
                   Sign in
                 </Button>
                 <AlertProvider>
-                  <SignInModal
-                    visible={visible === "signIn"}
-                    handleClose={handleClose}
-                  />
+                  <>
+                    <SignInModal
+                      signUp={handleClickSignUp}
+                      visible={visible === SignPopUp.SIGN_IN}
+                      handleClose={handleClose}
+                    />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <SignUpModal
+                        visible={visible === SignPopUp.SIGN_UP}
+                        handleClose={handleClose}
+                      />
+                    </LocalizationProvider>
+                  </>
                 </AlertProvider>
-                <SignUpModal
-                  visible={visible === "signUp"}
-                  handleClose={handleClose}
-                />
               </div>
             </div>
           </div>
         </section>
-        <section className={classes.logoBlock}>
-          <svg className={classes.icon} viewBox="0 0 24 24" aria-hidden="true">
-            <g>
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-            </g>
-          </svg>
-        </section>
+        {isMobile >= 600 ? (
+          <section className={classes.logoBlock}>
+            <svg
+              className={classes.icon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <g>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </g>
+            </svg>
+          </section>
+        ) : (
+          ""
+        )}
       </div>
       <nav className={classes.nav}>
         <ul className={classes.navList}>

@@ -2,9 +2,32 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 import { RootState } from "../store";
 import { LoginFormInputs } from "../../pages/SignIn/components/SignInModal";
+import { RegisterFormInputs } from "../../pages/SignIn/components/SignUpModal";
+export interface IDate {
+  day: number;
+  month: number;
+  year: number;
+}
+type UserData = {
+  _id: string;
+  username: string;
+  password: string;
+  fullname: string;
+  birthdate: IDate;
+  email: string;
+  confirmed: boolean;
+  confirm_hash: string;
+  location?: string;
+  about?: string;
+  website?: string;
+};
+export interface IData {
+  user: UserData;
+  token: string;
+}
 interface userResponseInterface {
   status: string;
-  data: any;
+  data: IData;
 }
 export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
@@ -17,23 +40,23 @@ export const fetchUserData = createAsyncThunk(
   }
 );
 export const fetchAuthMe = createAsyncThunk("auth/fetchAuthme", async () => {
-  const { data } = await axios.get("/auth/verify");
+  const { data } = await axios.get("/x-clone/users/me");
   return data;
 });
-// export const fetchRegister = createAsyncThunk(
-//   "auth/fetchRegister",
-//   async (params: RegisterFormInputs) => {
-//     const { data } = await axios.post("/auth/register", params);
-//     return data;
-//   }
-// );
+export const fetchRegister = createAsyncThunk(
+  "auth/fetchRegister",
+  async (params: RegisterFormInputs) => {
+    const { data } = await axios.post("/x-clone/auth/signup", params);
+    return data;
+  }
+);
 enum Status {
   LOADING = "loading",
   SUCCESS = "success",
   ERROR = "error",
 }
 type UserDataInit = {
-  data: null;
+  data: null | IData;
   isLoading: Status;
 };
 const initialState: UserDataInit = {
@@ -74,22 +97,24 @@ const authSlice = createSlice({
       .addCase(fetchAuthMe.rejected, (state) => {
         state.data = null;
         state.isLoading = Status.ERROR;
+      })
+      .addCase(fetchRegister.pending, (state) => {
+        state.isLoading = Status.LOADING;
+        state.data = null;
+      })
+      .addCase(fetchRegister.fulfilled, (state, action) => {
+        state.isLoading = Status.SUCCESS;
+        // state.data = action.payload;
+      })
+      .addCase(fetchRegister.rejected, (state) => {
+        state.data = null;
+        state.isLoading = Status.ERROR;
       });
-    // .addCase(fetchRegister.pending, (state) => {
-    //   state.isLoading = Status.LOADING;
-    //   state.data = null;
-    // })
-    // .addCase(fetchRegister.fulfilled, (state, action) => {
-    //   state.isLoading = Status.SUCCESS;
-    //   state.data = action.payload;
-    // })
-    // .addCase(fetchRegister.rejected, (state) => {
-    //   state.data = null;
-    //   state.isLoading = Status.ERROR;
-    // });
   },
 });
 export const selectIsAuth = (state: RootState) =>
   Boolean(state.authReducer.data);
+export const selectIsAuthLoading = (state: RootState) =>
+  state.authReducer.isLoading;
 export default authSlice.reducer;
 export const { logout } = authSlice.actions;
