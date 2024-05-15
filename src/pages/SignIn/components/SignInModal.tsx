@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { IData, fetchUserData } from "../../../store/slices/userAuth";
 import { signInStyles } from "./styles/stylesSignIn";
-import theme from "../../../theme";
 export interface AuthProps {
   visible: boolean | undefined;
   signUp?: () => void;

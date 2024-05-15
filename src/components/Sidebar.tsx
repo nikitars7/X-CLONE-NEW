@@ -11,16 +11,17 @@ import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import XIcon from "@mui/icons-material/X";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import theme from "../theme";
 import { ModalWindow } from "../UI/Modal/ModalWindow";
 import { useState } from "react";
 import AddTweetForm from "./AddTweetForm";
+import { useTheme } from "@mui/material";
 interface SibeBarProps {
   classes: ReturnType<typeof useHomeStyles>;
 }
 
 const Sidebar: React.FC<SibeBarProps> = ({ classes }) => {
   const [visibleTweet, setVisibleTweet] = useState<boolean>(false);
+  const theme = useTheme();
   const handleVisible = (): void => {
     setVisibleTweet(!visibleTweet);
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useHomeStyles } from "../pages/theme";
-import theme from "../theme";
+import { useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -14,6 +14,7 @@ interface TagsProps {
 }
 const Tags: React.FC<TagsProps> = ({ classes }) => {
   const { tags, isLoadingTags } = useSelector(selectTags);
+  const theme = useTheme();
   return (
     <Paper className={classes.searchSideBlock}>
       <div className={classes.searchSideBlockList}>

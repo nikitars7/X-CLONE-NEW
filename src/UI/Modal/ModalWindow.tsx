@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Close as CloseIcon } from "@mui/icons-material";
-import theme from "../../theme";
+import { useThemeMode } from "../../hooks/useThemeMode";
 interface ModalProps {
   title: string;
   visible?: boolean;
@@ -20,6 +20,7 @@ export const ModalWindow: React.FC<ModalProps> = ({
   onClose,
   children,
 }) => {
+  const [theme] = useThemeMode();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   if (!visible) {
     return null;

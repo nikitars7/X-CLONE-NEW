@@ -1,8 +1,5 @@
 import { styled } from "@mui/material/styles";
-import theme from "../../theme";
-
 const PREFIX = "SignIn";
-
 export const appleAuthBtn = {
   color: "black",
   "&:hover": {
@@ -88,7 +85,7 @@ export const classes = {
   navLink: `${PREFIX}-navLink`,
 };
 
-export const Root = styled("main")(() => ({
+export const Root = styled("main")(({ theme }) => ({
   [`&.${classes.wrapper}`]: {
     display: "flex",
     flexDirection: "column",
@@ -143,12 +140,12 @@ export const Root = styled("main")(() => ({
     padding: "0px 12px",
     minHeight: "40px",
     gap: "8px",
-    color: "black",
+    // color: theme.palette.text.primary,
     cursor: "pointer",
     transition: "all 0.3s ease",
-    "&:hover": {
-      backgroundColor: "lightblue",
-    },
+    // "&:hover": {
+    //   backgroundColor: "lightblue",
+    // },
   },
   [`& .${classes.googleCredentials}`]: {
     flex: "1 1 auto",
@@ -163,7 +160,7 @@ export const Root = styled("main")(() => ({
   [`& .${classes.googleUserEmail}`]: {
     fontSize: "11px",
     fontWeight: "400",
-    color: "#5f6368",
+    // color: theme.palette.text.primary,
   },
   [`& .${classes.googleAuthImg}`]: {
     width: "20px",
@@ -198,9 +195,9 @@ export const Root = styled("main")(() => ({
     lineHeight: "12px",
     marginBottom: "20px",
     fontWeight: "400",
-    color: "rgb(83, 100, 113)",
+    color: theme.palette.text.secondary,
     a: {
-      color: "rgb(29, 155, 240)",
+      color: theme.palette.info.main,
       "&:hover": {
         textDecoration: "underline",
       },
@@ -231,10 +228,11 @@ export const Root = styled("main")(() => ({
     paddingRight: "16px",
     "&:hover": {
       textDecoration: "underline",
+      textDecorationColor: theme.palette.text.secondary,
     },
   },
   [`& .${classes.navLink}`]: {
-    color: "rgb(83, 100, 113)",
+    color: theme.palette.text.secondary,
     fontSize: "13px",
     lineHeight: "16px",
     fontWeight: "400",

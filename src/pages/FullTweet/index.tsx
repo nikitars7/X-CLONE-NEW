@@ -16,15 +16,16 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { grey } from "@mui/material/colors";
-import theme from "../../theme";
 import { TweetData, TweetsResponse } from "../../store/slices/tweets";
 import { format } from "date-fns";
 import axios from "../../axios";
 import { enGB } from "date-fns/locale/en-GB";
 const FullTweet: React.FC = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [tweet, setTweet] = useState<TweetData>();
   const { id } = useParams();
   const classes = useHomeStyles();

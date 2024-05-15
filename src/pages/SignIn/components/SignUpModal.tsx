@@ -1,22 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Typography,
-  FormControl,
-  FormGroup,
-  TextField,
-} from "@mui/material";
+import { Button, Typography, FormControl, TextField } from "@mui/material";
 import { ModalWindow } from "../../../UI/Modal/ModalWindow";
 import { AuthProps } from "./SignInModal";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
 import { useForm } from "react-hook-form";
+import { useTheme } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useAlert } from "../../../hooks/useAlert";
 import { useAppDispatch } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { IData, IDate, fetchRegister } from "../../../store/slices/userAuth";
-import theme from "../../../theme";
 export type RegisterFormInputs = {
   username: string;
   fullname: string;
@@ -36,6 +30,7 @@ const SignUpModal: React.FC<AuthProps> = ({ visible, handleClose }) => {
   const showAlert = useAlert();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
   const handleNextClick = () => {
     if (
       !errors?.username &&

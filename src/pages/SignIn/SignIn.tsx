@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import XIcon from "@mui/icons-material/X";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AppleIcon from "@mui/icons-material/Apple";
 import { Root, appleAuthBtn, classes } from "./styles";
@@ -9,13 +10,17 @@ import { navList } from "./list";
 import { useEffect, useState } from "react";
 import SignInModal from "./components/SignInModal";
 import SignUpModal from "./components/SignUpModal";
+import { useTheme } from "@mui/material";
 import { AlertProvider } from "../../context/AlertProvider";
+import { useThemeMode } from "../../hooks/useThemeMode";
 enum SignPopUp {
   SIGN_IN = "signIn",
   SIGN_UP = "signUp",
 }
 const SignIn: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth);
+  const theme = useTheme();
+  const [prefersDarkMode] = useThemeMode();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth);
@@ -36,23 +41,24 @@ const SignIn: React.FC = () => {
     setIsVisible(undefined);
   };
   return (
-    <Root className={classes.wrapper}>
+    <Root theme={theme} className={classes.wrapper}>
       <div className={classes.content}>
         <section className={classes.authSide}>
           <div className={classes.authBlock}>
-            {isMobile <= 600 ? (
-              <svg
-                className={classes.icon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <g>
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                </g>
-              </svg>
-            ) : (
-              ""
-            )}
+            {isMobile <= 600 &&
+              (prefersDarkMode ? (
+                <XIcon />
+              ) : (
+                <svg
+                  className={classes.icon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <g>
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                  </g>
+                </svg>
+              ))}
             <Typography
               variant="h1"
               sx={{
@@ -77,7 +83,7 @@ const SignIn: React.FC = () => {
               Join today.
             </Typography>
             <div className={classes.authFlex}>
-              <Button className={classes.googleAuth}>
+              <Button name="google" className={classes.googleAuth}>
                 <AccountCircleIcon />
                 <div className={classes.googleCredentials}>
                   <div className={classes.googleUserName}>Sign in as User</div>
@@ -85,7 +91,7 @@ const SignIn: React.FC = () => {
                 </div>
                 <GoogleIcon />
               </Button>
-              <Button sx={appleAuthBtn} variant="outlined" fullWidth>
+              <Button name="apple" variant="outlined" fullWidth>
                 <AppleIcon />
                 Sign Up with Apple
               </Button>
@@ -117,6 +123,7 @@ const SignIn: React.FC = () => {
                   onClick={handleClickSignIn}
                   variant="outlined"
                   fullWidth
+                  name="signIn"
                 >
                   Sign in
                 </Button>
@@ -140,20 +147,22 @@ const SignIn: React.FC = () => {
             </div>
           </div>
         </section>
-        {isMobile >= 600 ? (
+        {isMobile >= 600 && (
           <section className={classes.logoBlock}>
-            <svg
-              className={classes.icon}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <g>
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-              </g>
-            </svg>
+            {prefersDarkMode ? (
+              <XIcon sx={{ fontSize: "400px", maxWidth: "100%" }} />
+            ) : (
+              <svg
+                className={classes.icon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <g>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </g>
+              </svg>
+            )}
           </section>
-        ) : (
-          ""
         )}
       </div>
       <nav className={classes.nav}>
